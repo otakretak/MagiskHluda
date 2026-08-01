@@ -40,10 +40,10 @@ void download(const std::string& aarch)
 {
     auto start = std::chrono::system_clock::now();
 
-    std::cout << "Starting To Downloaded florida for arch: " + aarch + "\n";
+    std::cout << "Starting To Downloaded undetected-frida for arch: " + aarch + "\n";
 
-    std::string url = "https://github.com/ylarod/florida/releases/download/" + utils::latestTag +
-        "/florida-server-" + utils::latestTag + "-android-" + aarch + ".gz";
+    std::string url = "https://github.com/otakretak/undetected-frida/releases/download/" + utils::latestTag +
+        "/undetected-frida-server-" + utils::latestTag + "-android-" + aarch + ".gz";
 
     std::unique_ptr<RestClient::Connection> pConnection(new RestClient::Connection(url));
     pConnection->FollowRedirects(true);
@@ -55,9 +55,9 @@ void download(const std::string& aarch)
     }
     std::string filename;
     if (aarch == "x86_64")
-        filename = "bin/florida-x64.gz";
+        filename = "bin/undetected-frida-x64.gz";
     else
-        filename = "bin/florida-" + aarch + ".gz";
+        filename = "bin/undetected-frida-" + aarch + ".gz";
 
     std::ofstream downloadedFile(filename, std::ios::out | std::ios::binary);
 
@@ -73,7 +73,7 @@ void download(const std::string& aarch)
     std::chrono::duration<double> elapsed_seconds = end - start;
     std::time_t end_time = std::chrono::system_clock::to_time_t(end);
     std::cout
-        << "Successfully Downloaded florida for arch: " + aarch + ". Took " + to_string(elapsed_seconds.count()) +
+        << "Successfully Downloaded undetected-frida for arch: " + aarch + ". Took " + to_string(elapsed_seconds.count()) +
         "s\n";
 }
 
@@ -108,12 +108,12 @@ void utils::createModuleProps()
     string versionCode = latestTag;
     versionCode.erase(std::remove(versionCode.begin(), versionCode.end(), '.'), versionCode.end());
     moduleProps << "id=magisk-hluda\n"
-        << "name=Frida(Florida) Server on Boot\n"
+        << "name=Frida(undetected-frida) Server on Boot\n"
         << "version=" << latestTag.substr(0, latestTag.find('-')) << '\n'
         << "versionCode=" << versionCode << '\n'
-        << "author=The Community - Ylarod - Exo1i\n"
+        << "author=The Community - Ylarod - Exo1i - otakretak\n"
         << "description=Runs a stealthier frida-server on boot\n"
-        << "updateJson=https://github.com/exo1i/magiskhluda/releases/latest/download/update.json";
+        << "updateJson=https://github.com/otakretak/magiskhluda/releases/latest/download/update.json";
 }
 
 void utils::createUpdateJson()
@@ -130,8 +130,8 @@ void utils::createUpdateJson()
     updateJson << "{\n"
         << R"(  "version": ")" << latestTag << "\",\n"
         << "  \"versionCode\": " << versionCode << ",\n"
-        << R"(  "zipUrl": "https://github.com/exo1i/magiskhluda/releases/download/)"
-        << latestTag << "/Magisk-Florida-Universal-" << latestTag << ".zip\",\n"
+        << R"(  "zipUrl": "https://github.com/otakretak/magiskhluda/releases/download/)"
+        << latestTag << "/Magiskhluda-Universal-" << latestTag << ".zip\",\n"
         << R"(  "changelog": "https://gist.githubusercontent.com/Exo1i/22b6b1aa3a78d421f30410bc1bf24212/raw/0ad35b77c347748a311a004b9e5a558bf97bf357/gistfile1.txt")"
         << "\n}\n";
 }

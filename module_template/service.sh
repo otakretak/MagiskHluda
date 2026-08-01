@@ -35,9 +35,9 @@ if [ -f "$MODULE_CFG" ]; then
    # Check if service should start (status=1)
    if [ "$status" = "1" ]; then
        # Start service if not running
-       if ! pgrep -x "florida" > /dev/null; then
+       if ! pgrep -x "izanami" > /dev/null; then
            # Build command with port and parameters
-           CMD="florida -D -l 0.0.0.0:$port"
+           CMD="izanami -D -l 0.0.0.0:$port"
 
            # Add additional parameters if specified
            if [ -n "$parameters" ]; then

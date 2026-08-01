@@ -50,7 +50,7 @@ elif [ "$BOOTMODE" ] && [ "$MAGISK_VER_CODE" ]; then
 fi
 
 VERSION=$(grep_prop version "${TMPDIR}/module.prop")
-print_title "- Installing Magisk Florida on boot $VERSION"
+print_title "- Installing Magisk MagiskHluda on boot $VERSION"
 
 # check architecture
 regex="^(arm(64)?|x(86|64))$"
@@ -69,29 +69,31 @@ unzip -qq -o "$ZIPFILE" 'webroot/*' -d "$MODPATH"
 mkdir -p "$MODPATH/system/bin"
 
 if ! test -f "$MODPATH/module.cfg"; then
+  RANDOM_PORT=$(shuf -i 20000-60000 -n 1 2>/dev/null || echo $((20000 + RANDOM % 40000)))
+
   {
-  echo "port=27042"
-  echo "parameters="
-  echo "status=1"
-   } >> "$MODPATH/module.cfg"
+    echo "port=${RANDOM_PORT}"
+    echo "parameters="
+    echo "status=1"
+  } >> "$MODPATH/module.cfg"
 fi
 
 # Handle architecture-specific files
 case "$ARCH" in
   arm)
-    BINARY_FILE="florida-arm.gz"
+    BINARY_FILE="MagiskHluda-arm.gz"
     ;;
   arm64)
-    BINARY_FILE="florida-arm64.gz"
+    BINARY_FILE="MagiskHluda-arm64.gz"
     ;;
   x86)
-    BINARY_FILE="florida-x86.gz"
+    BINARY_FILE="MagiskHluda-x86.gz"
     ;;
   x86_64)
-    BINARY_FILE="florida-x64.gz"
+    BINARY_FILE="MagiskHluda-x64.gz"
     ;;
   x64)
-    BINARY_FILE="florida-x64.gz"
+    BINARY_FILE="MagiskHluda-x64.gz"
     ;;
   *)
     abort "! Unsupported architecture: $ARCH"
@@ -113,10 +115,11 @@ unzip -qq -o -j "$ZIPFILE" "bin/$BINARY_FILE" "$TMPDIR"
 
 # Decompress based on file extension
 if [[ "$BINARY_FILE" == *.gz ]]; then
+  EXTRACTED_NAME="${BINARY_FILE%.gz}" # Mengambil nama "MagiskHluda-x64" secara presisi
   gzip -d "$TMPDIR/$BINARY_FILE"
-  mv "$TMPDIR/florida-$ARCH" "$MODPATH/system/bin/florida"
+  mv "$TMPDIR/$EXTRACTED_NAME" "$MODPATH/system/bin/izanami"
 fi
 
 ui_print "- Setting permissions"
 set_perm_recursive $MODPATH 0 0 0755 0644
-set_perm $MODPATH/system/bin/florida 0 2000 0755 u:object_r:system_file:s0
+set_perm $MODPATH/system/bin/izanami 0 2000 0755 u:object_r:system_file:s0
