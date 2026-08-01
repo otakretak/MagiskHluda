@@ -56,7 +56,7 @@ jobs:
           if [ ! -d "vcpkg" ]; then
             git clone --depth 1 https://github.com/Microsoft/vcpkg.git
             ./vcpkg/bootstrap-vcpkg.sh
-            ./vcpkg install rapidjson restclient-cpp
+            ./vcpkg/vcpkg install rapidjson restclient-cpp
           fi
       - name: Build MagiskHluda
         if: steps.check_release.outputs.should_release == 'true'
