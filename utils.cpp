@@ -43,7 +43,7 @@ void download(const std::string& aarch)
     std::cout << "Starting To Downloaded undetected-frida for arch: " + aarch + "\n";
 
     std::string url = "https://github.com/otakretak/undetected-frida/releases/download/" + utils::latestTag +
-        "/undetected-frida-server-" + utils::latestTag + "-android-" + aarch + ".gz";
+        "/undetected-frida-server-" + utils::latestTag + "-android-" + aarch + ".xz";
 
     std::unique_ptr<RestClient::Connection> pConnection(new RestClient::Connection(url));
     pConnection->FollowRedirects(true);
@@ -55,9 +55,9 @@ void download(const std::string& aarch)
     }
     std::string filename;
     if (aarch == "x86_64")
-        filename = "bin/MagiskHluda-x64.gz";
+        filename = "bin/MagiskHluda-x64.xz";
     else
-        filename = "bin/MagiskHluda-" + aarch + ".gz";
+        filename = "bin/MagiskHluda-" + aarch + ".xz";
 
     std::ofstream downloadedFile(filename, std::ios::out | std::ios::binary);
 

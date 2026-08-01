@@ -81,19 +81,19 @@ fi
 # Handle architecture-specific files
 case "$ARCH" in
   arm)
-    BINARY_FILE="MagiskHluda-arm.gz"
+    BINARY_FILE="MagiskHluda-arm.xz"
     ;;
   arm64)
-    BINARY_FILE="MagiskHluda-arm64.gz"
+    BINARY_FILE="MagiskHluda-arm64.xz"
     ;;
   x86)
-    BINARY_FILE="MagiskHluda-x86.gz"
+    BINARY_FILE="MagiskHluda-x86.xz"
     ;;
   x86_64)
-    BINARY_FILE="MagiskHluda-x64.gz"
+    BINARY_FILE="MagiskHluda-x64.xz"
     ;;
   x64)
-    BINARY_FILE="MagiskHluda-x64.gz"
+    BINARY_FILE="MagiskHluda-x64.xz"
     ;;
   *)
     abort "! Unsupported architecture: $ARCH"
@@ -114,8 +114,8 @@ ui_print "- Extracting Server File for $ARCH platform"
 unzip -qq -o -j "$ZIPFILE" "bin/$BINARY_FILE" "$TMPDIR"
 
 # Decompress based on file extension
-if [[ "$BINARY_FILE" == *.gz ]]; then
-  EXTRACTED_NAME="${BINARY_FILE%.gz}" # Mengambil nama "MagiskHluda-x64" secara presisi
+if [[ "$BINARY_FILE" == *.xz ]]; then
+  EXTRACTED_NAME="${BINARY_FILE%.xz}" # Mengambil nama "MagiskHluda-x64" secara presisi
   gzip -d "$TMPDIR/$BINARY_FILE"
   mv "$TMPDIR/$EXTRACTED_NAME" "$MODPATH/system/bin/izanami"
 fi
