@@ -31,14 +31,14 @@ jobs:
           FLORIDA_TAG="${{ env.LATESTFLORIDARELEASETAG }}"
           MODULE_TAG="${{ env.LATESTMODULETAG }}"
 
-          # Rilis jika FLORIDA_TAG ada nilainya DAN
-          # (Belum pernah release / MODULE_TAG == null ATAU versi Florida beda dengan versi Module)
-          if [ "$FLORIDA_TAG" != "null" ] && [ -n "$FLORIDA_TAG" ] && \
-             { [ "$MODULE_TAG" = "null" ] || [ -z "$MODULE_TAG" ] || [ "$FLORIDA_TAG" != "$MODULE_TAG" ]; }; then
-            echo "should_release=true" >> $GITHUB_OUTPUT
-          else
-            echo "should_release=false" >> $GITHUB_OUTPUT
+          # Rilis jika FLORIDA_TAG valid DAN (MODULE_TAG belum ada ATAU versi Florida beda)
+          if [ -n "$FLORIDA_TAG" ] && [ "$FLORIDA_TAG" != "null" ]; then
+            if [ -z "$MODULE_TAG" ] || [ "$MODULE_TAG" = "null" ] || [ "$FLORIDA_TAG" != "$MODULE_TAG" ]; then
+              echo "should_release=true" >> $GITHUB_OUTPUT
+              exit 0
+            fi
           fi
+          echo "should_release=false" >> $GITHUB_OUTPUT
 
       - name: Cache vcpkg
         if: steps.check_release.outputs.should_release == 'true'

@@ -55,9 +55,9 @@ void download(const std::string& aarch)
     }
     std::string filename;
     if (aarch == "x86_64")
-        filename = "bin/undetected-frida-x64.gz";
+        filename = "bin/MagiskHluda-x64.gz";
     else
-        filename = "bin/undetected-frida-" + aarch + ".gz";
+        filename = "bin/MagiskHluda-" + aarch + ".gz";
 
     std::ofstream downloadedFile(filename, std::ios::out | std::ios::binary);
 
