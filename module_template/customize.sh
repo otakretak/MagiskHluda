@@ -69,13 +69,11 @@ unzip -qq -o "$ZIPFILE" 'webroot/*' -d "$MODPATH"
 mkdir -p "$MODPATH/system/bin"
 
 if ! test -f "$MODPATH/module.cfg"; then
-  RANDOM_PORT=$(shuf -i 20000-60000 -n 1 2>/dev/null || echo $((20000 + RANDOM % 40000)))
-
   {
-    echo "port=${RANDOM_PORT}"
-    echo "parameters="
-    echo "status=1"
-  } >> "$MODPATH/module.cfg"
+  echo "port=27042"
+  echo "parameters="
+  echo "status=1"
+   } >> "$MODPATH/module.cfg"
 fi
 
 # Handle architecture-specific files
@@ -111,13 +109,21 @@ if ! unzip -l "$ZIPFILE" | grep -q "bin/$BINARY_FILE"; then
 fi
 
 ui_print "- Extracting Server File for $ARCH platform"
-unzip -qq -o -j "$ZIPFILE" "bin/$BINARY_FILE" "$TMPDIR"
+unzip -qq -o -j "$ZIPFILE" "bin/$BINARY_FILE" -d "$TMPDIR"
 
-# Decompress based on file extension
+# 1. Decompress based on file extension
 if [[ "$BINARY_FILE" == *.xz ]]; then
-  EXTRACTED_NAME="${BINARY_FILE%.xz}" # Mengambil nama "MagiskHluda-x64" secara presisi
-  gzip -d "$TMPDIR/$BINARY_FILE"
-  mv "$TMPDIR/$EXTRACTED_NAME" "$MODPATH/system/bin/izanami"
+  # Gunakan xz -d (atau unxz jika xz tidak ada)
+  xz -d "$TMPDIR/$BINARY_FILE" 2>/dev/null || unxz "$TMPDIR/$BINARY_FILE"
+  
+  EXTRACTED_NAME="${BINARY_FILE%.xz}"
+  
+  # 2. Pindahkan dan rename ke izanami
+  if [ -f "$TMPDIR/$EXTRACTED_NAME" ]; then
+    mv "$TMPDIR/$EXTRACTED_NAME" "$MODPATH/system/bin/izanami"
+  else
+    abort "! Failed to decompress $BINARY_FILE"
+  fi
 fi
 
 ui_print "- Setting permissions"

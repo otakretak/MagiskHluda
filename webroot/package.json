@@ -1,7 +1,7 @@
 {
-  "name": "florida-web",
+  "name": "izanami-web",
   "version": "1.0.0",
-  "description": "Web interface for Florida",
+  "description": "Web interface for Izanami",
   "browserslist": [
     "> 0.5%",
     "last 2 versions",

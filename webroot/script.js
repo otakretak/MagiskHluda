@@ -114,7 +114,7 @@ function updateStatus(running) {
 
 async function checkServerStatus() {
     try {
-        const {errno} = await exec('pgrep -f florida');
+        const {errno} = await exec('pgrep -f izanami');
         updateStatus(errno === 0);
     } catch (error) {
         console.error('Error checking server status:', error);
@@ -123,7 +123,7 @@ async function checkServerStatus() {
 }
 
 async function startServer(port, customParams) {
-    const baseCommand = `florida -D -l 0.0.0.0:${port}`;
+    const baseCommand = `izanami -D -l 0.0.0.0:${port}`;
     const fullCommand = customParams ? `${baseCommand} ${customParams}` : baseCommand;
 
     try {
@@ -149,7 +149,7 @@ async function startServer(port, customParams) {
 async function stopServer() {
     try {
         // frida doesn't respond to sigterm properly, so sending sigkill
-        const {errno} = await exec('pkill -SIGKILL -f florida');
+        const {errno} = await exec('pkill -SIGKILL -f izanami');
         if (errno === 0) {
             updateStatus(false);
             toast('Server stopped successfully');

@@ -108,10 +108,10 @@ void utils::createModuleProps()
     string versionCode = latestTag;
     versionCode.erase(std::remove(versionCode.begin(), versionCode.end(), '.'), versionCode.end());
     moduleProps << "id=magisk-hluda\n"
-        << "name=Frida(undetected-frida) Server on Boot\n"
+        << "name=MagiskHluda\n"
         << "version=" << latestTag.substr(0, latestTag.find('-')) << '\n'
         << "versionCode=" << versionCode << '\n'
-        << "author=The Community - Ylarod - Exo1i - otakretak\n"
+        << "author=The Community - Ylarod - Exo1i - zer0def - otakretak\n"
         << "description=Runs a stealthier frida-server on boot\n"
         << "updateJson=https://github.com/otakretak/magiskhluda/releases/latest/download/update.json";
 }
